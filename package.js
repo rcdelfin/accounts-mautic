@@ -6,6 +6,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
+  api.versionsFrom('1.2.1');
   api.use('accounts-base', ['client', 'server']);
   api.imply('accounts-base', ['client', 'server']);
 
