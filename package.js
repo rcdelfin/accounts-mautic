@@ -11,7 +11,7 @@ Package.onUse(function(api) {
   api.imply('accounts-base', ['client', 'server']);
 
   api.use('accounts-oauth', ['client', 'server']);
-  api.use('rcdelfin:mautic', ['client', 'server']);
+  api.use('rcdelfin:mautic@0.0.1', ['client', 'server']);
 
   api.addFiles(['mautic_login_button.css'], 'client');
   api.addFiles('mautic_common.js', ['client', 'server']);
@@ -22,10 +22,8 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.versionsFrom('1.2.1');
-  api.use('tinytest');
-  api.use('autopublish');
-  api.use('http', ['server']);
-  api.use('ryepdx:linkedin-fake@0.0.4');
+  api.use('tinytest')
+  api.use('ecmascript')
   api.use('rcdelfin:accounts-mautic');
 
   api.addFiles('mautic_client_tests.js', 'client');
