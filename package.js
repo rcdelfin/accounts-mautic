@@ -20,6 +20,7 @@ Package.onUse(function(api) {
 
 
 Package.onTest(function(api) {
+  api.versionsFrom('1.2.1');
   api.use('tinytest');
   api.use('autopublish');
   api.use('http', ['server']);
