@@ -4,12 +4,24 @@ Meteor.loginWithMautic = function(options, callback) {
     callback = options;
     options = null;
   }
-  var credentialRequestCompleteCallback = Accounts.oauth.credentialRequestCompleteHandler(callback);
-  Mautic.requestCredential(options, credentialRequestCompleteCallback);
+
+  if (!_.isEmpty(options)) {
+    if (!_.isUndefined(options.integrate) && options.integrate) {
+      Mautic.requestCredential(function (credentialToken) {
+        var credentialSecret = OAuth._retrieveCredentialSecret(credentialToken) || null;
+        Meteor.call('integrateMauticToLoggedUser', credentialToken, credentialSecret);
+      });
+    }
+  } else {
+    var credentialRequestCompleteCallback = Accounts.oauth.credentialRequestCompleteHandler(callback);
+    Mautic.requestCredential(options, credentialRequestCompleteCallback);
+  }
 };
 
 
-if(Meteor.settings && Meteor.settings.public !== undefined && Meteor.settings.public.mautic !== undefined && Meteor.settings.public.mautic.baseUrl !== undefined) {
+if(Meteor.settings && Meteor.settings.public !== undefined
+  && Meteor.settings.public.mautic !== undefined
+  && Meteor.settings.public.mautic.baseUrl !== undefined) {
 	// Make it work with 0.9.3
 	Meteor.loginWithMautic = Meteor.loginWithMautic;
 } else {
