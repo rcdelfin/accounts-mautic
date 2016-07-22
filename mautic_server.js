@@ -8,6 +8,6 @@ Meteor.methods({
     this.unblock();
 
     var serviceData = OAuth.retrieveCredential(credentialToken, credentialSecret).serviceData;
-    Meteor.users.upsert({_id: Meteor.userId}, {$set: {'services.mautic': serviceData}});
+    Meteor.users.upsert({_id: Meteor.userId}, {$set: {'services.mautic': serviceData, 'profile.service': 'mautic'}});
   }
 });
