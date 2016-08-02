@@ -4,10 +4,40 @@ Accounts.addAutopublishFields({
 });
 
 Meteor.methods({
-  integrateMauticToLoggedUser: function (credentialToken, credentialSecret) {
+  integrateMauticToLoggedUser: function(credentialToken, credentialSecret, isPrimary) {
     this.unblock();
 
-    var serviceData = OAuth.retrieveCredential(credentialToken, credentialSecret).serviceData;
-    Meteor.users.upsert({_id: Meteor.userId}, {$set: {'services.mautic': serviceData, 'profile.service': 'mautic'}});
+    var service = OAuth.retrieveCredential(credentialToken, credentialSecret);
+    if (!_.isEmpty(service)) {
+      if(_.isNull(isPrimary)) {
+        isPrimary = true;
+      }
+
+      var serviceName = 'mautic';
+      var services = _.isUndefined(Meteor.user().profile.services) ? {} : Meteor.user().profile.services;
+
+      var profile = _.isUndefined(services.mautic) ? {} : services.mautic;
+      services[serviceName] = _.extend(profile, {primary: isPrimary, connected: true});
+
+      Meteor.users.upsert({
+        _id: Meteor.userId()
+      }, {
+        $set: {
+          'services.mautic': service.serviceData,
+          'profile.services': services
+        }
+      });
+    }
+  },
+  disconnectLoggedUser: function() {
+    this.unblock();
+    return Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        'services.mautic': {},
+        'profile.services.mautic.connected': false
+      }
+    });
   }
 });

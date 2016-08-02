@@ -1,7 +1,7 @@
 Package.describe({
   name: 'rcdelfin:accounts-mautic',
   summary: "Accounts service for Mautic accounts",
-  version: "0.0.4",
+  version: "1.0.0",
   git: "https://github.com/PoBuchi/meteor-accounts-mautic.git"
 });
 
@@ -13,7 +13,7 @@ Package.onUse(function(api) {
   api.use('accounts-oauth', ['client', 'server']);
   api.use('oauth2', ['client', 'server']);
   api.use('oauth', ['client', 'server']);
-  api.use('rcdelfin:mautic@0.0.5', ['client', 'server']);
+  api.use('rcdelfin:mautic@1.0.0', ['client', 'server']);
 
   api.addFiles(['mautic_login_button.css'], 'client');
   api.addFiles('mautic_common.js', ['client', 'server']);
