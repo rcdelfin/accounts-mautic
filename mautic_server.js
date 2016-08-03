@@ -17,13 +17,13 @@ Meteor.methods({
       var services = _.isUndefined(Meteor.user().profile.services) ? {} : Meteor.user().profile.services;
 
       var profile = _.isUndefined(services.mautic) ? {} : services.mautic;
-      services[serviceName] = _.extend(profile, {primary: isPrimary, connected: true});
+      services[serviceName] = _.extend(profile, {primary: isPrimary, connected: true, id: service.serviceData.id});
 
       Meteor.users.upsert({
         _id: Meteor.userId()
       }, {
         $set: {
-          'services.mautic': service.serviceData,
+          'services.mautic': _.extend(service.serviceData, {id: Meteor.userId()}),
           'profile.services': services
         }
       });

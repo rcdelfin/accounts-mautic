@@ -1,7 +1,7 @@
 Package.describe({
   name: 'rcdelfin:accounts-mautic',
   summary: "Accounts service for Mautic accounts",
-  version: "1.0.0",
+  version: "1.0.1",
   git: "https://github.com/PoBuchi/meteor-accounts-mautic.git"
 });
 
